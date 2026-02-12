@@ -1,5 +1,3 @@
-using Povet.DamageText.Data;
-
 namespace Povet.DamageText.Core
 {
     public interface IDamageText
@@ -7,7 +5,7 @@ namespace Povet.DamageText.Core
         /// <summary>
         /// 데미지 텍스트 초기화 및 표시
         /// </summary>
-        void Show(DamageTextData data);
+        void Show(Data.DamageTextData data);
 
         /// <summary>
         /// 데미지 텍스트 숨김 및 풀 반환
