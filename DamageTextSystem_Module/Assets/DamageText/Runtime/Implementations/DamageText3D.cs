@@ -40,8 +40,8 @@ namespace Povet.DamageText.Implementations
 
         protected override void SetAlpha(float alpha)
         {
-            if (tmpText == null) return;
-            tmpText.alpha = alpha;
+            //if (tmpText == null) return;
+            //tmpText.alpha = alpha;
         }
 
         protected override void ApplyVisualStyle(Data.DamageTextStyle style)

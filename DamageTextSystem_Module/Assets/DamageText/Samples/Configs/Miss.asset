@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Miss
   m_EditorClassIdentifier: DamageText.Runtime::Povet.DamageText.Data.DamageTextStyle
   StyleName: Miss
-  SortingOrder: 5
+  SortingOrder: 0
   DamageTextPrefab: {fileID: 6967284350971430333, guid: a7aa35bf2cf3c6548834473ac1f3609c, type: 3}
   FontSize: 30
   HasEnterAnimation: 0

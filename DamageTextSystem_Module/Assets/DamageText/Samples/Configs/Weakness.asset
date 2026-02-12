@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Weakness
   m_EditorClassIdentifier: DamageText.Runtime::Povet.DamageText.Data.DamageTextStyle
   StyleName: Weakness
-  SortingOrder: 7
+  SortingOrder: 0
   DamageTextPrefab: {fileID: 6967284350971430333, guid: ca261bb710cf659469a0f00867cdd98a, type: 3}
   FontSize: 50
   HasEnterAnimation: 1

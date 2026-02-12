@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Critical
   m_EditorClassIdentifier: DamageText.Runtime::Povet.DamageText.Data.DamageTextStyle
   StyleName: Critical
-  SortingOrder: 10
+  SortingOrder: 0
   DamageTextPrefab: {fileID: 6967284350971430333, guid: 43e2e38a1c880e1479003e25c8d0e48f, type: 3}
   FontSize: 60
   HasEnterAnimation: 1
