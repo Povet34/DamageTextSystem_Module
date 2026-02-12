@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8412ec292f9df745ac1ac6dcc29b5c1, type: 3}
+  m_Name: DamageTextConfig
+  m_EditorClassIdentifier: DamageText.Runtime::Povet.DamageText.Data.DamageTextConfig
+  Styles:
+  - {fileID: 11400000, guid: 3316230a5500fc244a32a959adec82d4, type: 2}
+  - {fileID: 11400000, guid: 66251ae67e8b41d41b050460a2385cfc, type: 2}
+  - {fileID: 11400000, guid: 540b6cb7b1eb2844087bd6211d2891b9, type: 2}
+  - {fileID: 11400000, guid: 50b31febfd8bd8540adfc62d49f12715, type: 2}
+  DefaultStyle: {fileID: 11400000, guid: 540b6cb7b1eb2844087bd6211d2891b9, type: 2}
+  InitialPoolSize: 30
+  MaxPoolSize: 200
