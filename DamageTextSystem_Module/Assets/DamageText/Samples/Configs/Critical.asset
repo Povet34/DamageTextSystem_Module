@@ -41,8 +41,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  EnterDuration: 0.3
-  ExitDuration: 1.2
+  EnterDuration: 0.2
+  ExitDuration: 0.5
   MoveUpSpeed: 2
   ScaleCurve:
     serializedVersion: 2

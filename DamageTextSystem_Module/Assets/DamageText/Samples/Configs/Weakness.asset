@@ -42,7 +42,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   EnterDuration: 0.25
-  ExitDuration: 1.1
+  ExitDuration: 0.8
   MoveUpSpeed: 1.8
   ScaleCurve:
     serializedVersion: 2
