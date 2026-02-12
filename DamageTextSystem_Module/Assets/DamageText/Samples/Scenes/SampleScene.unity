@@ -718,7 +718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbc1288413392c04c8505233f9d47913, type: 3}
   m_Name: 
   m_EditorClassIdentifier: DamageText.Runtime::Povet.DamageText.Pool.DamageTextPool
-  prefab: {fileID: 175651294939072883, guid: 8c366640118cc2644beceff35c5bf7a9, type: 3}
+  prefab: {fileID: 6967284350971430333, guid: 43e2e38a1c880e1479003e25c8d0e48f, type: 3}
   initialSize: 20
   maxSize: 100
   poolParent: {fileID: 0}
