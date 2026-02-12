@@ -3,9 +3,6 @@ using TMPro;
 
 namespace Povet.DamageText.Implementations
 {
-    /// <summary>
-    /// World Space 3D 데미지 텍스트
-    /// </summary>
     [RequireComponent(typeof(TextMeshPro))]
     public class DamageText3D : Core.DamageTextBase
     {
@@ -25,44 +22,36 @@ namespace Povet.DamageText.Implementations
 
         protected override void SetDamageText(string text)
         {
+            if (tmpText == null) return;
             tmpText.text = text;
         }
 
         protected override void SetWorldPosition(Vector3 worldPosition)
         {
+            if (textTransform == null) return;
             textTransform.position = worldPosition;
         }
 
         protected override void SetLocalScale(Vector3 scale)
         {
+            if (textTransform == null) return;
             textTransform.localScale = scale;
         }
 
         protected override void SetAlpha(float alpha)
         {
-            Color color = tmpText.color;
-            color.a = originalColor.a * alpha;
-            tmpText.color = color;
+            if (tmpText == null) return;
+            tmpText.alpha = alpha;
         }
 
         protected override void ApplyVisualStyle(Data.DamageTextStyle style)
         {
-            // 색상
-            tmpText.color = style.TextColor;
-            originalColor = style.TextColor;
+            if (tmpText == null || style == null) return;
 
-            // 폰트 크기
-            tmpText.fontSize = style.FontSize;
-
-            // 아웃라인
-            if (style.UseOutline)
+            Renderer rend = tmpText.GetComponent<Renderer>();
+            if (rend != null)
             {
-                tmpText.outlineColor = style.OutlineColor;
-                tmpText.outlineWidth = style.OutlineWidth;
-            }
-            else
-            {
-                tmpText.outlineWidth = 0f;
+                rend.sortingOrder = style.SortingOrder;
             }
         }
 
@@ -70,16 +59,15 @@ namespace Povet.DamageText.Implementations
         {
             base.Update();
 
-            // Billboard: 항상 카메라를 향하도록
             if (useBillboard && targetCamera != null && IsActive)
             {
-                textTransform.rotation = Quaternion.LookRotation(
-                    textTransform.position - targetCamera.transform.position
-                );
+                //textTransform.rotation = Quaternion.LookRotation(
+                //    textTransform.position - targetCamera.transform.position
+                //);
+                textTransform.forward = targetCamera.transform.forward;
             }
         }
 
-        // 에디터에서 자동 참조 설정
         private void OnValidate()
         {
             if (tmpText == null) tmpText = GetComponent<TextMeshPro>();

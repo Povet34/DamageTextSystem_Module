@@ -20,8 +20,8 @@ namespace Povet.DamageText.Implementations
         [SerializeField] private Camera targetCamera;
 
         [Header("Canvas Settings")]
-        [SerializeField] private float canvasWorldSize = 1f; // World Space Canvas 크기
-        [SerializeField] private int sortingOrder = 100; // 렌더링 순서
+        [SerializeField] private float canvasWorldSize = 1f;
+        [SerializeField] private int sortingOrder = 100;
 
         private Color originalColor;
 
@@ -45,20 +45,17 @@ namespace Povet.DamageText.Implementations
         {
             if (canvas == null) return;
 
-            // World Space Canvas 설정
             canvas.renderMode = RenderMode.WorldSpace;
             canvas.worldCamera = targetCamera;
             canvas.sortingOrder = sortingOrder;
 
-            // Canvas 크기 설정
             RectTransform canvasRect = canvas.GetComponent<RectTransform>();
             if (canvasRect != null)
             {
                 canvasRect.sizeDelta = new Vector2(canvasWorldSize, canvasWorldSize);
-                canvasRect.localScale = Vector3.one * 0.01f; // World Space 스케일 조정
+                canvasRect.localScale = Vector3.one * 0.01f;
             }
 
-            // CanvasScaler 설정
             if (canvasScaler != null)
             {
                 canvasScaler.dynamicPixelsPerUnit = 100;
@@ -74,8 +71,6 @@ namespace Povet.DamageText.Implementations
         protected override void SetWorldPosition(Vector3 worldPosition)
         {
             if (canvas == null) return;
-
-            // World Space Canvas는 Transform 직접 사용
             transform.position = worldPosition;
         }
 
@@ -98,23 +93,14 @@ namespace Povet.DamageText.Implementations
         {
             if (tmpText == null || style == null) return;
 
-            // 색상
-            tmpText.color = style.TextColor;
-            originalColor = style.TextColor;
+            // Material 변경 완전 제거
+            // Prefab에 이미 Material이 할당되어 있음
 
-            // 폰트 크기
+            // 폰트 크기만 변경 (필요시)
             tmpText.fontSize = style.FontSize;
 
-            // 아웃라인
-            if (style.UseOutline)
-            {
-                tmpText.outlineColor = style.OutlineColor;
-                tmpText.outlineWidth = style.OutlineWidth;
-            }
-            else
-            {
-                tmpText.outlineWidth = 0f;
-            }
+            // Prefab의 색상 저장 (알파 변경용)
+            originalColor = tmpText.color;
         }
 
         private void OnValidate()

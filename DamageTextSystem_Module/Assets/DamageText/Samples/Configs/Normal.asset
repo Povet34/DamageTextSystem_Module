@@ -13,11 +13,8 @@ MonoBehaviour:
   m_Name: Normal
   m_EditorClassIdentifier: DamageText.Runtime::Povet.DamageText.Data.DamageTextStyle
   StyleName: Normal
-  TextColor: {r: 1, g: 1, b: 1, a: 1}
+  DamageTextPrefab: {fileID: 6967284350971430333, guid: 8af4b608ec1015c4e84a047d9dc6a4f8, type: 3}
   FontSize: 40
-  UseOutline: 1
-  OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-  OutlineWidth: 0.2
   HasEnterAnimation: 0
   EnterScaleCurve:
     serializedVersion: 2

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4437580450317978045}
   - component: {fileID: 7317822913895196767}
   m_Layer: 0
-  m_Name: DamageText3D
+  m_Name: DamageText3D_Weakness
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 7dcf0f27cf85a284083ee7d33f519ef0, type: 2}
+  - {fileID: 2100000, guid: 798790f019e58cc41900e163a43774fb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 7dcf0f27cf85a284083ee7d33f519ef0, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 798790f019e58cc41900e163a43774fb, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

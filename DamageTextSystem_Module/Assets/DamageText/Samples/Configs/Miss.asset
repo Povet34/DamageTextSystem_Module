@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: Miss
   m_EditorClassIdentifier: DamageText.Runtime::Povet.DamageText.Data.DamageTextStyle
   StyleName: Miss
-  TextColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
+  SortingOrder: 5
+  DamageTextPrefab: {fileID: 6967284350971430333, guid: a7aa35bf2cf3c6548834473ac1f3609c, type: 3}
   FontSize: 30
-  UseOutline: 0
-  OutlineColor: {r: 0, g: 0, b: 0, a: 1}
-  OutlineWidth: 0.2
   HasEnterAnimation: 0
   EnterScaleCurve:
     serializedVersion: 2

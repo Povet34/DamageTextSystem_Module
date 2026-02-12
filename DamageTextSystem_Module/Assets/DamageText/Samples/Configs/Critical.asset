@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: Critical
   m_EditorClassIdentifier: DamageText.Runtime::Povet.DamageText.Data.DamageTextStyle
   StyleName: Critical
-  TextColor: {r: 1, g: 0, b: 0, a: 1}
+  SortingOrder: 10
+  DamageTextPrefab: {fileID: 6967284350971430333, guid: 43e2e38a1c880e1479003e25c8d0e48f, type: 3}
   FontSize: 60
-  UseOutline: 1
-  OutlineColor: {r: 1, g: 0.78431374, b: 0, a: 1}
-  OutlineWidth: 0.3
   HasEnterAnimation: 1
   EnterScaleCurve:
     serializedVersion: 2

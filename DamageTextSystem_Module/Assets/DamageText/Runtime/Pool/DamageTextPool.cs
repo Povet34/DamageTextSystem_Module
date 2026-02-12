@@ -6,16 +6,40 @@ namespace Povet.DamageText.Pool
     public class DamageTextPool : MonoBehaviour, IDamageTextPool
     {
         [Header("Pool Settings")]
-        [SerializeField] private GameObject prefab;
         [SerializeField] private int initialSize = 20;
         [SerializeField] private int maxSize = 100;
         [SerializeField] private Transform poolParent;
 
-        private Queue<Core.IDamageText> pool = new Queue<Core.IDamageText>();
-        private HashSet<Core.IDamageText> activeObjects = new HashSet<Core.IDamageText>();
+        // Style별 Pool 관리
+        private Dictionary<string, Queue<Core.IDamageText>> pools = new Dictionary<string, Queue<Core.IDamageText>>();
+        private Dictionary<string, HashSet<Core.IDamageText>> activePools = new Dictionary<string, HashSet<Core.IDamageText>>();
+        private Dictionary<string, GameObject> prefabCache = new Dictionary<string, GameObject>();
 
-        public int ActiveCount => activeObjects.Count;
-        public int InactiveCount => pool.Count;
+        public int ActiveCount
+        {
+            get
+            {
+                int total = 0;
+                foreach (var pool in activePools.Values)
+                {
+                    total += pool.Count;
+                }
+                return total;
+            }
+        }
+
+        public int InactiveCount
+        {
+            get
+            {
+                int total = 0;
+                foreach (var pool in pools.Values)
+                {
+                    total += pool.Count;
+                }
+                return total;
+            }
+        }
 
         private void Awake()
         {
@@ -25,61 +49,101 @@ namespace Povet.DamageText.Pool
                 parent.transform.SetParent(transform);
                 poolParent = parent.transform;
             }
-
-            Initialize(initialSize);
         }
 
         public void Initialize(int size)
         {
+            // 초기화는 Controller에서 Style별로 진행
+        }
+
+        /// <summary>
+        /// 특정 스타일의 Prefab으로 Pool 초기화
+        /// </summary>
+        public void InitializeStylePool(string styleName, GameObject prefab, int size)
+        {
             if (prefab == null)
             {
-                Debug.LogError("[DamageTextPool] Prefab이 설정되지 않음");
+                Debug.LogError($"[DamageTextPool] Prefab이 null: {styleName}");
                 return;
+            }
+
+            if (!pools.ContainsKey(styleName))
+            {
+                pools[styleName] = new Queue<Core.IDamageText>();
+                activePools[styleName] = new HashSet<Core.IDamageText>();
+                prefabCache[styleName] = prefab;
             }
 
             for (int i = 0; i < size; i++)
             {
-                CreateNewInstance();
+                CreateNewInstance(styleName, prefab);
             }
         }
 
-        public Core.IDamageText Get()
+        /// <summary>
+        /// 특정 스타일의 데미지 텍스트 가져오기
+        /// </summary>
+        public Core.IDamageText Get(string styleName)
         {
+            if (!pools.ContainsKey(styleName))
+            {
+                Debug.LogError($"[DamageTextPool] 초기화되지 않은 스타일: {styleName}");
+                return null;
+            }
+
             Core.IDamageText damageText;
 
             // Pool에서 가져오기
-            if (pool.Count > 0)
+            if (pools[styleName].Count > 0)
             {
-                damageText = pool.Dequeue();
+                damageText = pools[styleName].Dequeue();
             }
-            // Pool이 비었으면 새로 생성 (최대 개수 체크)
+            // Pool이 비었으면 새로 생성
             else
             {
-                if (activeObjects.Count >= maxSize)
+                int totalActive = ActiveCount;
+                if (totalActive >= maxSize)
                 {
                     Debug.LogWarning($"[DamageTextPool] 최대 개수 도달: {maxSize}");
                     return null;
                 }
 
-                damageText = CreateNewInstance();
+                damageText = CreateNewInstance(styleName, prefabCache[styleName]);
             }
 
-            activeObjects.Add(damageText);
+            activePools[styleName].Add(damageText);
             return damageText;
+        }
+
+        public Core.IDamageText Get()
+        {
+            Debug.LogError("[DamageTextPool] Style 없이 Get() 호출됨. Get(styleName) 사용 필요");
+            return null;
         }
 
         public void Return(Core.IDamageText damageText)
         {
             if (damageText == null) return;
 
-            if (!activeObjects.Remove(damageText))
+            // 어느 Pool에 속하는지 찾기
+            string styleName = null;
+            foreach (var kvp in activePools)
+            {
+                if (kvp.Value.Contains(damageText))
+                {
+                    styleName = kvp.Key;
+                    break;
+                }
+            }
+
+            if (styleName == null)
             {
                 Debug.LogWarning("[DamageTextPool] 이미 반환된 객체이거나 이 Pool의 객체가 아님");
                 return;
             }
 
-            // Pool에 반환
-            pool.Enqueue(damageText);
+            activePools[styleName].Remove(damageText);
+            pools[styleName].Enqueue(damageText);
 
             // 부모 설정
             if (damageText is MonoBehaviour mb)
@@ -90,32 +154,40 @@ namespace Povet.DamageText.Pool
 
         public void Clear()
         {
-            // 활성 객체 모두 제거
-            foreach (var obj in activeObjects)
+            // 모든 Pool 정리
+            foreach (var pool in activePools.Values)
             {
-                if (obj is MonoBehaviour mb)
+                foreach (var obj in pool)
                 {
-                    Destroy(mb.gameObject);
+                    if (obj is MonoBehaviour mb)
+                    {
+                        Destroy(mb.gameObject);
+                    }
                 }
             }
-            activeObjects.Clear();
 
-            // Pool의 객체 모두 제거
-            while (pool.Count > 0)
+            foreach (var pool in pools.Values)
             {
-                var obj = pool.Dequeue();
-                if (obj is MonoBehaviour mb)
+                while (pool.Count > 0)
                 {
-                    Destroy(mb.gameObject);
+                    var obj = pool.Dequeue();
+                    if (obj is MonoBehaviour mb)
+                    {
+                        Destroy(mb.gameObject);
+                    }
                 }
             }
-            pool.Clear();
+
+            pools.Clear();
+            activePools.Clear();
+            prefabCache.Clear();
         }
 
-        private Core.IDamageText CreateNewInstance()
+        private Core.IDamageText CreateNewInstance(string styleName, GameObject prefab)
         {
             GameObject instance = Instantiate(prefab, poolParent);
             instance.SetActive(false);
+            instance.name = $"{styleName}_{pools[styleName].Count}";
 
             Core.IDamageText damageText = instance.GetComponent<Core.IDamageText>();
 
@@ -129,24 +201,13 @@ namespace Povet.DamageText.Pool
             // 완료 콜백 설정
             damageText.OnComplete = Return;
 
-            pool.Enqueue(damageText);
+            pools[styleName].Enqueue(damageText);
             return damageText;
         }
 
         private void OnDestroy()
         {
             Clear();
-        }
-
-        // 디버그용
-        private void OnGUI()
-        {
-#if UNITY_EDITOR
-            if (Application.isPlaying)
-            {
-                GUILayout.Label($"Pool: Active={ActiveCount}, Inactive={InactiveCount}");
-            }
-#endif
         }
     }
 }

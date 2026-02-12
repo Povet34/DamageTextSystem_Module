@@ -8,12 +8,14 @@ namespace Povet.DamageText.Data
         [Header("Identification")]
         public string StyleName;
 
-        [Header("Visual")]
-        public Color TextColor = Color.white;
+        [Header("Rendering")]
+        public int SortingOrder = 0;
+
+        [Header("Prefab")]
+        public GameObject DamageTextPrefab; // ¡ç ÇÙ½É º¯°æ
+
+        [Header("Visual (for runtime override if needed)")]
         public float FontSize = 36f;
-        public bool UseOutline;
-        public Color OutlineColor = Color.black;
-        public float OutlineWidth = 0.2f;
 
         [Header("Animation")]
         public bool HasEnterAnimation;
